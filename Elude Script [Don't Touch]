@@ -23,7 +23,7 @@ print(Result)
 end)
 
 lobbySection:NewButton("Server Hop", "Server Hop If Keypad Not Spawned", function()
-    Time = 600 -- seconds
+    Time = 1 -- seconds
 repeat wait() until game:IsLoaded()
 wait(Time)
 local PlaceID = game.PlaceId
