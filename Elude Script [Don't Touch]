@@ -1,0 +1,174 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Slap Battles : New Glove Help", "DarkTheme")
+
+--Help
+local lobby = Window:NewTab("In-Lobby")
+local lobbySection = lobby:NewSection("Get help while getting new glove")
+
+--Custom UI
+
+lobbySection:NewButton("Get Code (F9)(Console)", "Prints code on console", function()
+    local Players;
+
+Players =  #game.Players:GetPlayers()
+
+
+local Step1 = Players * 25
+
+local Step2 = Step1 + 1100
+
+local Result = Step2 - 7
+
+print(Result)
+end)
+
+lobbySection:NewButton("Server Hop", "Server Hop If Keypad Not Spawned", function()
+    Time = 600 -- seconds
+repeat wait() until game:IsLoaded()
+wait(Time)
+local PlaceID = game.PlaceId
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+function TPReturner()
+   local Site;
+   if foundAnything == "" then
+       Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+   else
+       Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+   end
+   local ID = ""
+   if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+       foundAnything = Site.nextPageCursor
+   end
+   local num = 0;
+   for i,v in pairs(Site.data) do
+       local Possible = true
+       ID = tostring(v.id)
+       if tonumber(v.maxPlayers) > tonumber(v.playing) then
+           for _,Existing in pairs(AllIDs) do
+               if num ~= 0 then
+                   if ID == tostring(Existing) then
+                       Possible = false
+                   end
+               else
+                   if tonumber(actualHour) ~= tonumber(Existing) then
+                       local delFile = pcall(function()
+                           delfile("NotSameServers.json")
+                           AllIDs = {}
+                           table.insert(AllIDs, actualHour)
+                       end)
+                   end
+               end
+               num = num + 1
+           end
+           if Possible == true then
+               table.insert(AllIDs, ID)
+               wait()
+               pcall(function()
+                   writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                   wait()
+                   game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+               end)
+               wait(4)
+           end
+       end
+   end
+end
+
+function Teleport()
+   while wait() do
+       pcall(function()
+           TPReturner()
+           if foundAnything ~= "" then
+               TPReturner()
+           end
+       end)
+   end
+end
+
+-- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
+Teleport()
+end)
+
+lobbySection:NewButton("Infinite Yield", "Executes IY (Useful)", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+lobbySection:NewButton("CTRL + Click tp", "Dangerous but okey", function()
+    local UIS = game:GetService("UserInputService")
+
+local Player = game.Players.LocalPlayer
+local Mouse = Player:GetMouse()
+
+
+function GetCharacter()
+   return game.Players.LocalPlayer.Character
+end
+
+function Teleport(pos)
+   local Char = GetCharacter()
+   if Char then
+       Char:MoveTo(pos)
+   end
+end
+
+
+UIS.InputBegan:Connect(function(input)
+   if input.UserInputType == Enum.UserInputType.MouseButton1 and UIS:IsKeyDown(Enum.KeyCode.LeftControl) then
+       Teleport(Mouse.Hit.p)
+   end
+end)
+end)
+
+lobbySection:NewButton("Anti-Cheat Bypass", "DELETE ANTI CHAT HAHAH", function()
+    local Namecall
+Namecall = hookmetamethod(game, '__namecall', function(self, ...)
+   if getnamecallmethod() == 'FireServer' and tostring(self) == 'Ban' then
+       return
+   elseif getnamecallmethod() == 'FireServer' and tostring(self) == 'WalkSpeedChanged' then
+       return
+   elseif getnamecallmethod() == 'FireServer' and tostring(self) == 'AdminGUI' then
+       return
+   end
+   return Namecall(self, ...)
+end)
+end)
+
+lobbySection:NewButton("Full Bright", "GOOD LIGHT", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/06iG6YkU", true))()
+end)
+
+
+--How to use
+
+local use = Window:NewTab("How to use")
+local useSection = use:NewSection("Pls read above")
+
+
+
+useSection:NewLabel("Find keypad (moai,Slapple)")
+useSection:NewLabel("If no keypad server hop")
+useSection:NewLabel("You found keypad! Great!")
+useSection:NewLabel("Click get code and click F9")
+useSection:NewLabel("Enter the code")
+useSection:NewLabel("You will be teleported to ?")
+useSection:NewLabel("Click Anti-Cheat bypass")
+useSection:NewLabel("Click Infinite Yield")
+useSection:NewLabel("use ; and type in:")
+useSection:NewLabel(";xray")
+useSection:NewLabel(";speed 50")
+useSection:NewLabel("Go to lights parts and go on the relics")
+useSection:NewLabel("When you find 4 relic")
+useSection:NewLabel("You get teleported to glove")
+useSection:NewLabel("Step on it, and enjoy 😎")
+
+--Credits
+
+local credits = Window:NewTab("Credits")
+local creditsSection = credits:NewSection("Credit those ppl")
+
+creditsSection:NewLabel("kiriakos7777#0200")
+creditsSection:NewLabel(game.Players.LocalPlayer.Name)
+creditsSection:NewLabel("That's all!")
