@@ -170,5 +170,4 @@ local credits = Window:NewTab("Credits")
 local creditsSection = credits:NewSection("Credit those ppl")
 
 creditsSection:NewLabel("kiriakos7777#0200")
-creditsSection:NewLabel(game.Players.LocalPlayer.Name)
 creditsSection:NewLabel("That's all!")
